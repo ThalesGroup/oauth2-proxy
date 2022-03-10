@@ -43,6 +43,9 @@ type ProviderVerifierOptions struct {
 	// SkipIssuerVerification skips verification of ID token issuers.
 	// When false, ID Token Issuers must match the OIDC discovery URL.
 	SkipIssuerVerification bool
+
+	// SkipExpiryCheck skips verification of expiry.
+	SkipExpiryCheck bool
 }
 
 // validate checks that the required options are present before attempting to create
@@ -79,6 +82,7 @@ func (p ProviderVerifierOptions) toOIDCConfig() *oidc.Config {
 		ClientID:          p.ClientID,
 		SkipIssuerCheck:   p.SkipIssuerVerification,
 		SkipClientIDCheck: true,
+		SkipExpiryCheck:   p.SkipExpiryCheck,
 	}
 }
 

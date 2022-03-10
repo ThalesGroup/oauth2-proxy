@@ -223,6 +223,8 @@ type OIDCOptions struct {
 	// ExtraAudiences is a list of additional audiences that are allowed
 	// to pass verification in addition to the client id.
 	ExtraAudiences []string `json:"extraAudiences,omitempty"`
+	// SkipExpiryCheck allows to skip token expiry
+	SkipExpiryCheck bool `json:"skipExpiryCheck,omitempty"`
 }
 
 type LoginGovOptions struct {
