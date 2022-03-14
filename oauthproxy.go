@@ -83,6 +83,7 @@ type OAuthProxy struct {
 	SkipProviderButton  bool
 	skipAuthPreflight   bool
 	skipJwtBearerTokens bool
+	skipExpiryCheck     bool
 	forceJSONErrors     bool
 	realClientIPParser  ipapi.RealClientIPParser
 	trustedIPs          *ip.NetSet
@@ -151,6 +152,10 @@ func NewOAuthProxy(opts *options.Options, validator func(string) bool) (*OAuthPr
 		redirectURL.Path = fmt.Sprintf("%s/callback", opts.ProxyPrefix)
 	}
 
+	if opts.SkipExpiryCheck {
+		logger.Printf("Skipping the token expiration date")
+	}
+
 	logger.Printf("OAuthProxy configured for %s Client ID: %s", provider.Data().ProviderName, opts.Providers[0].ClientID)
 	refresh := "disabled"
 	if opts.Cookie.Refresh != time.Duration(0) {
@@ -203,6 +208,7 @@ func NewOAuthProxy(opts *options.Options, validator func(string) bool) (*OAuthPr
 		whitelistDomains:    opts.WhitelistDomains,
 		skipAuthPreflight:   opts.SkipAuthPreflight,
 		skipJwtBearerTokens: opts.SkipJwtBearerTokens,
+		skipExpiryCheck:     opts.SkipExpiryCheck,
 		realClientIPParser:  opts.GetRealClientIPParser(),
 		SkipProviderButton:  opts.SkipProviderButton,
 		forceJSONErrors:     opts.ForceJSONErrors,
